@@ -1,2 +1,2 @@
 # Django
-Here is my django project
+Here is my django project and in this project  I check loging user and only creator user is allowed to edit and update her data .It hase a search on book name and description .Every book can have a picture and by clicking on picture it will be larger .

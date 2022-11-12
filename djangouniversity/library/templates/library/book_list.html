@@ -1,0 +1,57 @@
+{% extends "base_menu.html" %}
+
+{% block content %}
+  <h1>Books List</h1>
+    <div style="float:right">
+<!-- https://www.w3schools.com/howto/howto_css_search_button.asp -->
+<form>
+  <input type="text" placeholder="Search.." name="search"
+  {% if search %} value="{{ search }}" {% endif %}
+  >
+  <button type="submit"><i class="fa fa-search"></i></button>
+<a href="{% url 'library:all' %}"><i class="fa fa-undo"></i></a>
+
+</form>
+</div>
+  {% if book_list %}
+  <ul>
+    {% for book in book_list %}
+      <li>
+          {{ book.name }} ({{ book.author}})
+          {% if book.owner == user %}
+          (<a href="{% url 'library:book_update' book.id %}">Update</a> |
+          <a href="{% url 'library:book_delete' book.id %}">Delete</a>)|
+          {% endif %}
+           <a href="{% url 'library:book_detail' book.id %}">Detail</a>)|
+          <br/>
+          {{ book.description }}
+      </li>
+    {% endfor %}
+  </ul>
+  {% else %}
+    <p>There are no books in the library.</p>
+  {% endif %}
+  <p>
+    {% if language_count > 0 %}
+      <a href="{% url 'library:book_create' %}">Add an book</a>
+    {% else %}
+      Please add author before you add a book.
+    {% endif %}
+  {% if user.is_authenticated %}
+
+<a href="{% url 'logout' %}?next={% url 'library:all' %}">Logout</a>
+{% else %}
+<a href="{% url 'login' %}?next={% url 'library:all' %}">Login</a>
+{% endif %}
+  </p>
+  <p>
+  <a href="{% url 'library:language_list' %}">View language</a>  |
+      <a href="{% url 'library:author_list' %}">View Author</a> ({{ author_count }}) |
+      <a href="{% url 'library:category_list' %}">View Category </a> |
+       <a href="{% url 'library:place_list' %}">View Place</a> |
+
+
+
+  </p>
+
+{% endblock %}
